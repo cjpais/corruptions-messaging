@@ -6,11 +6,15 @@ interface MessageProps {
 
 const styles = {
   button: {
-    marginTop: 16,
-    border: "1px solid white",
-    padding: "4px 12px",
+    marginLeft: 8,
+    border: 0,
+    padding: 0,
     cursor: "pointer",
     borderRadius: "0.25rem",
+    fontFamily: "inherit",
+  },
+  codeMessage: {
+    opacity: 0.5,
   },
 };
 
@@ -22,12 +26,20 @@ export const Message = ({ contents }: MessageProps) => {
 
   return (
     <div>
-      <div>{message}</div>
       {containsCode && (
-        <button style={styles.button} onClick={toggleDecoded}>
-          {isDecoded ? "ENCODE" : "DECODE"}
-        </button>
+        <div>
+          <pre style={styles.codeMessage}>
+            {isDecoded
+              ? "This message has been decoded"
+              : "This message appears to be encoded"}
+            ...
+            <button style={styles.button} onClick={toggleDecoded}>
+              {isDecoded ? "ENCODE" : "DECODE"} MESSAGE
+            </button>
+          </pre>
+        </div>
       )}
+      <div>{message}</div>
     </div>
   );
 };

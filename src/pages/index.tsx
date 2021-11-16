@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 import { request, gql } from "graphql-request";
 import useSWR from "swr";
@@ -26,14 +26,9 @@ const query = gql`
 `;
 
 const IndexPage = () => {
-  // const ref = useRef<HTMLDivElement>(null);
   const { data } = useSWR(["message-fetch"], () => request(GRAPH_URL, query), {
     revalidateOnMount: true,
   });
-
-  // useEffect(() => {
-  //   ref.current?.scrollIntoView();
-  // }, [data]);
 
   return (
     <div className="index">
@@ -59,7 +54,6 @@ const IndexPage = () => {
           <div>{msg.message}</div>
         </div>
       ))}
-      {/* <div ref={ref} className="bottom" /> */}
       <style jsx>{`
         .index {
           margin: 0 auto;

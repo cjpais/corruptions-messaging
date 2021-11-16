@@ -12,7 +12,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
         * {
           box-sizing: border-box;
           background-color: black;
-          color: #eee;
+          color: #ccc;
         }
         html,
         body {

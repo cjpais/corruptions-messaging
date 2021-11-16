@@ -3,6 +3,7 @@ import React from "react";
 import { request, gql } from "graphql-request";
 import useSWR from "swr";
 import TimeAgo from "timeago-react";
+import { Message } from "../app/components/Message";
 
 type Message = {
   id: string; // this is the tx hash
@@ -54,7 +55,7 @@ const IndexPage = () => {
             <a href={`https://etherscan.io/tx/${msg.id}`}>tx ↗</a>
           </div>
           <div></div>
-          <div>{decodeMessage(msg.message)}</div>
+          <Message contents={msg.message} />
         </div>
       ))}
       <style jsx>{`
@@ -86,29 +87,5 @@ const IndexPage = () => {
     </div>
   );
 };
-
-function decodeMessage(message: string) {
-  const messageParts = message.split(" ");
-
-  const messageProcessed = messageParts.map((part) => {
-    const isBase64 = part.endsWith("==");
-
-    if (isBase64) {
-      const partDecoded = atob(part);
-      console.log(partDecoded);
-      if (partDecoded.startsWith("<svg")) {
-        return <div dangerouslySetInnerHTML={{ __html: partDecoded }} />;
-      }
-
-      if (partDecoded.startsWith("#")) {
-        return <pre>{partDecoded}</pre>;
-      }
-      return partDecoded;
-    }
-    return `${part} `;
-  });
-
-  return messageProcessed;
-}
 
 export default IndexPage;

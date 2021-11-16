@@ -1,11 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface MessageProps {
   contents: string;
 }
 
+const styles = {
+  button: {
+    marginLeft: 8,
+    border: 0,
+    padding: 0,
+    cursor: "pointer",
+    borderRadius: "0.25rem",
+    fontFamily: "inherit",
+  },
+  codeMessage: {
+    opacity: 0.5,
+  },
+};
+
 export const Message = ({ contents }: MessageProps) => {
-  return <div>{decodeMessage(contents)}</div>;
+  const [isDecoded, setIsDecoded] = useState(false);
+  const message = isDecoded ? decodeMessage(contents) : contents;
+  const toggleDecoded = () => setIsDecoded(!isDecoded);
+  const containsCode = contents.includes("==");
+
+  return (
+    <div>
+      {containsCode && (
+        <div>
+          <pre style={styles.codeMessage}>
+            {isDecoded
+              ? "This message has been decoded"
+              : "This message appears to be encoded"}
+            ...
+            <button style={styles.button} onClick={toggleDecoded}>
+              {isDecoded ? "ENCODE" : "DECODE"} MESSAGE
+            </button>
+          </pre>
+        </div>
+      )}
+      <div>{message}</div>
+    </div>
+  );
 };
 
 function decodeMessage(message: string) {

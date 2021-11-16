@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { request, gql } from "graphql-request";
 import useSWR from "swr";
@@ -31,13 +31,33 @@ const IndexPage = () => {
     revalidateOnMount: true,
   });
 
+  const [sortDirection, setSortDirection] = React.useState<"asc" | "desc">(
+    "desc"
+  );
+  const [messages, setMessages] = React.useState<Message[] | null>(null);
+
+  useEffect(() => {
+    if (data) {
+      setMessages((data.messages as Message[]).reverse());
+    }
+  }, [data, sortDirection]);
+
   return (
     <div className="index">
       <div>
         <h1>Corruption Messaging</h1>
+        <button
+          onClick={() => {
+            sortDirection == "asc"
+              ? setSortDirection("desc")
+              : setSortDirection("asc");
+          }}
+        >
+          sort: {sortDirection}
+        </button>
       </div>
-      {data?.messages?.reverse().map((msg: Message) => (
-        <div className="message-container">
+      {messages?.reverse().map((msg: Message) => (
+        <div className="message-container" key={msg.created}>
           <div className="message-header">
             <div
               className="message-channel"
@@ -71,6 +91,22 @@ const IndexPage = () => {
             padding: 1.5rem;
             margin-top: 0;
           }
+        }
+
+        h1 {
+          margin: 2rem 0;
+        }
+
+        button {
+          font-weight: bold;
+          font-style: italic;
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+          color: white;
+          background-color: #333;
+          border: none;
+          margin-bottom: 1rem;
+          padding: 0.25rem 0.5rem;
         }
 
         .message-container {

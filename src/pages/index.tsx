@@ -5,7 +5,7 @@ import useSWR from "swr";
 import TimeAgo from "timeago-react";
 
 type Message = {
-  txHash: string;
+  id: string; // this is the tx hash
   created: number;
   channel: "CORRUPTION" | "REFLECTION";
   message: string;

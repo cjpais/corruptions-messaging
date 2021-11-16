@@ -98,14 +98,15 @@ const IndexPage = () => {
         }
 
         button {
-          font-weight: bold;
+          font-weight: 700;
+          font-size: 0.8rem;
           font-style: italic;
           padding: 0.25rem 0.5rem;
           border-radius: 0.25rem;
           color: white;
           background-color: #333;
           border: none;
-          margin-bottom: 1rem;
+          margin-bottom: 1.5rem;
           padding: 0.25rem 0.5rem;
         }
 

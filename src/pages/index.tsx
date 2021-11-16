@@ -66,6 +66,13 @@ const IndexPage = () => {
           overflow-wrap: break-word;
         }
 
+        @media screen and (max-width: 768px) {
+          .index {
+            padding: 1.5rem;
+            margin-top: 0;
+          }
+        }
+
         .message-container {
           margin-bottom: 2rem;
         }

@@ -50,7 +50,10 @@ const IndexPage = () => {
 
             <div>-</div>
             <TimeAgo datetime={new Date(msg.created * 1000)} />
+            <div>-</div>
+            <a href={`https://etherscan.io/tx/${msg.id}`}>tx ↗</a>
           </div>
+          <div></div>
           <div>{msg.message}</div>
         </div>
       ))}

@@ -22,7 +22,7 @@ export const Message = ({ contents }: MessageProps) => {
   const [isDecoded, setIsDecoded] = useState(false);
   const message = isDecoded ? decodeMessage(contents) : contents;
   const toggleDecoded = () => setIsDecoded(!isDecoded);
-  const containsCode = contents.includes("==");
+  const containsCode = contents.endsWith("=");
 
   return (
     <div>
@@ -59,7 +59,7 @@ function decodeMessage(message: string) {
   const messageParts = message.split(" ");
 
   return messageParts.map((part) => {
-    const isBase64 = part.endsWith("==");
+    const isBase64 = part.endsWith("=");
 
     if (isBase64) {
       const partDecoded = atob(part);

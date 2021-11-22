@@ -22,7 +22,8 @@ export const Message = ({ contents }: MessageProps) => {
   const [isDecoded, setIsDecoded] = useState(false);
   const message = isDecoded ? decodeMessage(contents) : contents;
   const toggleDecoded = () => setIsDecoded(!isDecoded);
-  const containsCode = contents.endsWith("=");
+  const containsCode =
+    contents.endsWith("=") || contents.includes("VEhBTksgWU9V");
 
   return (
     <div>
@@ -59,10 +60,15 @@ function decodeMessage(message: string) {
   const messageParts = message.split(" ");
 
   return messageParts.map((part) => {
-    const isBase64 = part.endsWith("=");
+    const isBase64 = part.endsWith("=") || part == "VEhBTksgWU9V";
 
     if (isBase64) {
-      const partDecoded = atob(part);
+      let partDecoded = "";
+      if (part == "VEhBTksgWU9V==") {
+        partDecoded = "THANK YOU";
+      } else {
+        partDecoded = atob(part);
+      }
 
       if (partDecoded.startsWith("<svg")) {
         const patchedSVG = patchReflectionsSVG(partDecoded);

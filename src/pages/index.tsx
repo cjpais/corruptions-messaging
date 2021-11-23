@@ -7,19 +7,18 @@ import { Message } from "../app/components/Message";
 
 type Message = {
   id: string; // this is the tx hash
-  created: number;
+  createdAt: number;
   channel: "CORRUPTION" | "REFLECTION";
   message: string;
 };
 
-const GRAPH_URL =
-  "https://api.thegraph.com/subgraphs/name/cjpais/corruption-messaging";
+const GRAPH_URL = "https://api.thegraph.com/subgraphs/name/shahruz/corruptions";
 
 const query = gql`
   {
-    messages(first: 500, orderBy: created, orderDirection: desc) {
+    messages(first: 500, orderBy: createdAt, orderDirection: desc) {
       id
-      created
+      createdAt
       channel
       message
     }
@@ -27,9 +26,15 @@ const query = gql`
 `;
 
 const IndexPage = () => {
-  const { data } = useSWR(["message-fetch"], () => request(GRAPH_URL, query), {
-    revalidateOnMount: true,
-  });
+  const { data, error } = useSWR(
+    ["message-fetch"],
+    () => request(GRAPH_URL, query),
+    {
+      revalidateOnMount: true
+    }
+  );
+
+  console.log({ data, error });
 
   const [sortDirection, setSortDirection] = React.useState<"asc" | "desc">(
     "desc"
@@ -57,20 +62,24 @@ const IndexPage = () => {
         </button>
       </div>
       {messages?.reverse().map((msg: Message) => (
-        <div className="message-container" key={msg.created}>
+        <div className="message-container" key={msg.id}>
           <div className="message-header">
             <div
               className="message-channel"
               style={{
                 backgroundColor:
-                  msg.channel == "CORRUPTION" ? "#A802B7" : "#57fd48",
+                  msg.channel == "CORRUPTION"
+                    ? "#A802B7"
+                    : "REFLECTIONS"
+                    ? "#57fd48"
+                    : "#ff0000"
               }}
             >
               {msg.channel}
             </div>
 
             <div>-</div>
-            <TimeAgo datetime={new Date(msg.created * 1000)} />
+            <TimeAgo datetime={new Date(msg.createdAt * 1000)} />
             <div>-</div>
             <a href={`https://etherscan.io/tx/${msg.id}`}>tx ↗</a>
           </div>

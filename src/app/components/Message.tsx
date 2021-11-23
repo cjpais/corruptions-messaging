@@ -75,6 +75,17 @@ function decodeMessage(message: string) {
         return <div dangerouslySetInnerHTML={{ __html: patchedSVG }} />;
       }
 
+      if (partDecoded.trimStart().startsWith("PNG")) {
+        return (
+          <img
+            src={`data:image/png;base64,${part}`}
+            width="100%"
+            height="auto"
+          />
+        );
+      }
+
+
       if (partDecoded.startsWith("#")) {
         return (
           <pre style={{ wordWrap: "break-word", whiteSpace: "pre-wrap" }}>
